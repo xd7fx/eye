@@ -1,16 +1,12 @@
 import os, io, time, json, cv2, numpy as np, requests, streamlit as st
 from PIL import Image
 
-# مهم للبث المباشر عبر المتصفح
 from streamlit_webrtc import webrtc_streamer, WebRtcMode, RTCConfiguration
 import av
 
 st.set_page_config(page_title="PeduliOpticv2 Online", layout="wide")
 st.title("PeduliOpticv2 — Online (Webcam / Phone)")
 
-# -----------------------------
-# الإعدادات
-# -----------------------------
 st.sidebar.header("Roboflow")
 api_key = st.sidebar.text_input("API Key", value=st.secrets.get("ROBOFLOW_API_KEY", ""), type="password")
 model_id = st.sidebar.text_input("Model ID", value="peduliopticv2/4")
@@ -18,7 +14,7 @@ model_id = st.sidebar.text_input("Model ID", value="peduliopticv2/4")
 st.sidebar.header("Params")
 confidence = st.sidebar.slider("Confidence", 0.0, 1.0, 0.4, 0.01)
 overlap = st.sidebar.slider("Overlap (IoU)", 0.0, 1.0, 0.5, 0.01)
-every_n_frames = st.sidebar.slider("تحليل كل كم فريم؟", 1, 10, 3)  # لتخفيف الحمل والـ API
+every_n_frames = st.sidebar.slider("تحليل كل كم فريم؟", 1, 10, 3) 
 
 mode = st.radio("الوضع", ["Realtime (Webcam in Browser)", "Single Image"])
 
@@ -39,7 +35,6 @@ def draw_dets(bgr, preds):
         (tw, th), _ = cv2.getTextSize(lbl, cv2.FONT_HERSHEY_SIMPLEX, 0.6, 2)
         cv2.rectangle(im, (x1, y1 - th - 8), (x1 + tw + 6, y1), (0, 210, 0), -1)
         cv2.putText(im, lbl, (x1 + 3, y1 - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,0,0), 2)
-        # نقطة مركز البؤبؤ (اختيارية)
         cx, cy = int(x), int(y)
         cv2.circle(im, (cx, cy), 3, (0, 210, 0), -1)
     return im
@@ -54,14 +49,11 @@ def infer_bytes(img_bytes):
     r.raise_for_status()
     return r.json()
 
-# -----------------------------
-# وضع البث المباشر (كاميرا المتصفح)
-# -----------------------------
 if mode.startswith("Realtime"):
     st.caption("يشتغل عبر HTTPS ويطلب إذن الكاميرا من المتصفح.")
     rtc_cfg = RTCConfiguration({"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
 
-    frame_count = {"n": 0}  # عداد مشترك مع المعالج
+    frame_count = {"n": 0}
 
     class VideoProcessor:
         def __init__(self):
@@ -72,10 +64,8 @@ if mode.startswith("Realtime"):
             img = frame.to_ndarray(format="bgr24")
             frame_count["n"] += 1
 
-            # حلّل كل N فريم لتخفيف الضغط
             if frame_count["n"] % every_n_frames == 0:
                 try:
-                    # JPEG in-memory
                     ok, buf = cv2.imencode(".jpg", img)
                     if ok:
                         data = infer_bytes(buf.tobytes())
@@ -104,9 +94,6 @@ if mode.startswith("Realtime"):
         async_processing=True,
     )
 
-# -----------------------------
-# وضع الصورة الواحدة
-# -----------------------------
 else:
     submode = st.radio("المصدر", ["Camera (Browser)", "Upload Image", "Image URL"])
 
@@ -144,7 +131,7 @@ else:
             except Exception as e:
                 st.error(f"Error: {e}")
 
-    else:  # Image URL
+    else:  
         url_inp = st.text_input("رابط صورة مباشر (jpg/png)")
         if url_inp and st.button("Run Detection"):
             try:
