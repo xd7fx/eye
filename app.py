@@ -9,7 +9,7 @@ from PIL import Image
 # App Config
 # =========================
 st.set_page_config(page_title="PeduliOpticv2 — Pupil Detector", layout="wide")
-st.title("PeduliOpticv2 — Pupil Detector")
+st.title("Pupil Detector")
 
 # API Key and Model ID
 API_KEY = st.secrets.get("ROBOFLOW_API_KEY", "")
