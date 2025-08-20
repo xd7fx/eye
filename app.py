@@ -108,7 +108,7 @@ else:
                 preds = data.get("predictions", [])
                 bgr = cv2.cvtColor(np.array(pil), cv2.COLOR_RGB2BGR)
                 vis = draw_dets(bgr, preds)
-                img_ph.image(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB), channels="RGB", use_container_width=True)
+                img_ph.image(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB), channels="RGB", use_column_width=True)
                 json_ph.json(data)
                 st.success(f"Detections: {len(preds)}")
             except Exception as e:
@@ -125,7 +125,7 @@ else:
                 preds = data.get("predictions", [])
                 bgr = cv2.cvtColor(np.array(pil), cv2.COLOR_RGB2BGR)
                 vis = draw_dets(bgr, preds)
-                img_ph.image(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB), channels="RGB", use_container_width=True)
+                img_ph.image(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB), channels="RGB", use_column_width=True)
                 json_ph.json(data)
                 st.success(f"Detections: {len(preds)}")
             except Exception as e:
@@ -144,7 +144,7 @@ else:
                 preds = data.get("predictions", [])
                 bgr = cv2.cvtColor(np.array(pil), cv2.COLOR_RGB2BGR)
                 vis = draw_dets(bgr, preds)
-                img_ph.image(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB), channels="RGB", use_container_width=True)
+                img_ph.image(cv2.cvtColor(vis, cv2.COLOR_BGR2RGB), channels="RGB",use_column_width=True)
                 json_ph.json(data)
                 st.success(f"Detections: {len(preds)}")
             except Exception as e:
