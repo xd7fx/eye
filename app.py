@@ -12,7 +12,7 @@ st.title("PeduliOpticv2 — Online (Webcam / Phone)")
 # الإعدادات
 # -----------------------------
 st.sidebar.header("Roboflow")
-api_key = st.sidebar.text_input("API Key", value=st.secrets.get("ROBOFLOW_API_KEY", ""), type="password")
+api_key = st.sidebar.text_input("API Key", value=st.secrets.get("rf_LAYmelf4LWcgvUM3gmK93nRcfvu2", ""), type="password")
 model_id = st.sidebar.text_input("Model ID", value="peduliopticv2/4")
 
 st.sidebar.header("Params")
